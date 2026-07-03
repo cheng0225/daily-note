@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">每日便签</string>
+    <string name="widget_name">每日任务</string>
+    <string name="today_tasks">今日任务</string>
+    <string name="empty_tasks">还没有任务，点右下角添加</string>
+    <string name="widget_empty">暂无任务</string>
+    <string name="add_task">添加任务</string>
+    <string name="edit_task">编辑任务</string>
+    <string name="task_hint">输入任务内容</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="delete_confirm">确定删除这条任务吗？</string>
+    <string name="task_limit_reached">最多 15 条任务</string>
+    <string name="invalid_task">任务内容不能为空</string>
+    <string name="reset_time">每日重置：%1$s</string>
+    <string name="change_reset_time">修改重置时间</string>
+    <string name="reset_now">立即重置</string>
+    <string name="reset_done">已重置今日进度</string>
+    <string name="progress_format">已完成 %1$d / %2$d</string>
+</resources>

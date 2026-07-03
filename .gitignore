@@ -1,0 +1,16 @@
+# Gradle / Android
+.gradle/
+**/build/
+local.properties
+*.iml
+.idea/
+.cxx/
+.externalNativeBuild/
+/captures/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 保留 releases/ 中的 APK 供下载；忽略临时文件
+releases/*.tmp

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="task_active">#212121</color>
+    <color name="task_done">#9E9E9E</color>
+
+    <!-- 小组件：透明背景，深色文字 + 浅色阴影，在常见壁纸上更易读 -->
+    <color name="widget_bg">@android:color/transparent</color>
+    <color name="widget_text_primary">#DE000000</color>
+    <color name="widget_text_secondary">#99000000</color>
+    <color name="widget_text_shadow">#80FFFFFF</color>
+</resources>
