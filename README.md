@@ -13,7 +13,8 @@ Android/
 | 目录 | 类型 | 说明 |
 |------|------|------|
 | [vibe-coding](vibe-coding/) | 文档 | 产品需求、技术方案、开发路线 |
-| [daily-note](daily-note/) | 代码 | 「每日便签」App 源码，用 Android Studio 打开此目录 |
+| [daily-note](daily-note/) | 代码 | 「每日便签」App 源码 |
+| [scripts/publish-github.ps1](scripts/publish-github.ps1) | 脚本 | 一键推送 GitHub 并发布 Release |
 
 ## 快速开始
 
