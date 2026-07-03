@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/widget_bg"
     android:orientation="vertical"
     android:padding="12dp">
-
-    <TextView
-        android:id="@+id/widget_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:shadowColor="@color/widget_text_shadow"
-        android:shadowDx="0"
-        android:shadowDy="1"
-        android:shadowRadius="4"
-        android:text="@string/today_tasks"
-        android:textColor="@color/widget_text_primary"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/widget_list"

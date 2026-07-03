@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">每日便签</string>
-    <string name="widget_name">每日任务</string>
-    <string name="today_tasks">今日任务</string>
+    <string name="widget_name">每日便签</string>
+    <string name="widget_label_blank"> </string>
+    <string name="widget_description">任务便签</string>
     <string name="empty_tasks">还没有任务，点右下角添加</string>
     <string name="widget_empty">暂无任务</string>
     <string name="add_task">添加任务</string>
@@ -19,4 +20,9 @@
     <string name="reset_now">立即重置</string>
     <string name="reset_done">已重置今日进度</string>
     <string name="progress_format">已完成 %1$d / %2$d</string>
+    <string name="settings">设置</string>
+    <string name="settings_widget_section">桌面便签</string>
+    <string name="settings_widget_opacity_hint">调整便签背景透明度。0% 完全透明，100% 白色不透明。</string>
+    <string name="settings_widget_opacity_value">背景不透明度：%1$d%%</string>
+    <string name="settings_widget_label_note">说明：部分手机桌面仍会显示小组件名称，由系统决定，应用无法完全去掉。</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.vibecoding.dailytasks.data
 
 import android.content.Context
+import android.graphics.Color
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -98,6 +99,23 @@ class TaskRepository(context: Context, database: AppDatabase) {
         }
     }
 
+    /**
+     * 便签背景不透明度 0～100。
+     * 0 = 完全透明；100 = 不透明白色底。
+     */
+    fun getWidgetBackgroundOpacity(): Int =
+        prefs.getInt(KEY_WIDGET_BG_OPACITY, DEFAULT_WIDGET_BG_OPACITY)
+
+    fun setWidgetBackgroundOpacity(opacity: Int) {
+        prefs.edit { putInt(KEY_WIDGET_BG_OPACITY, opacity.coerceIn(0, 100)) }
+    }
+
+    /** 转为 ARGB 颜色，供 RemoteViews 设置背景 */
+    fun getWidgetBackgroundColor(): Int {
+        val alpha = (getWidgetBackgroundOpacity() * 255 / 100f).toInt()
+        return Color.argb(alpha, 255, 255, 255)
+    }
+
     fun markResetDoneToday() {
         prefs.edit { putString(KEY_LAST_RESET_DATE, LocalDate.now().toString()) }
     }
@@ -112,8 +130,10 @@ class TaskRepository(context: Context, database: AppDatabase) {
         const val KEY_LAST_RESET_DATE = "last_reset_date"
         const val KEY_RESET_HOUR = "reset_hour"
         const val KEY_RESET_MINUTE = "reset_minute"
+        const val KEY_WIDGET_BG_OPACITY = "widget_bg_opacity"
         const val DEFAULT_RESET_HOUR = 8
         const val DEFAULT_RESET_MINUTE = 0
+        const val DEFAULT_WIDGET_BG_OPACITY = 0
         const val MAX_TASKS = 15
     }
 }

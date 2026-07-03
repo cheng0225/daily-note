@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         binding.fabAdd.setOnClickListener { showTaskDialog(null) }
+        binding.btnSettings.setOnClickListener {
+            startActivity(android.content.Intent(this, SettingsActivity::class.java))
+        }
         binding.btnResetTime.setOnClickListener { showResetTimePicker() }
         binding.btnResetNow.setOnClickListener { resetNow() }
         binding.resetTimeText.text = getString(R.string.reset_time, repository.formatResetTime())

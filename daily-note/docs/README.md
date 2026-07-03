@@ -11,6 +11,7 @@
 | 3 | [主界面](03-主界面.md) | MainActivity、列表、增删改查 |
 | 4 | [桌面小组件](04-桌面小组件.md) | App Widget、透明样式、点击打钩 |
 | 5 | [每日重置](05-每日重置.md) | 闹钟、开机补重置、改时间逻辑 |
+| 6 | [设置页](06-设置.md) | 便签透明度、小组件样式 |
 
 ## 源码文件对照
 
@@ -18,6 +19,7 @@
 app/src/main/java/com/vibecoding/dailytasks/
 ├── DailyTasksApp.kt       → 应用入口，全局单例
 ├── MainActivity.kt        → 主界面（见 03）
+├── SettingsActivity.kt    → 设置页（见 06）
 ├── ResetScheduler.kt      → 闹钟调度（见 05）
 ├── data/                  → 数据层（见 02）
 ├── ui/TaskAdapter.kt      → 任务列表适配器

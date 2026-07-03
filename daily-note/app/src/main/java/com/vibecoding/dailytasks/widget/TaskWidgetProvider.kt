@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.vibecoding.dailytasks.MainActivity
 import com.vibecoding.dailytasks.R
 
 /**
@@ -62,9 +61,16 @@ class TaskWidgetProvider : AppWidgetProvider() {
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int,
         ) {
+            val app = context.applicationContext as com.vibecoding.dailytasks.DailyTasksApp
             val views = RemoteViews(context.packageName, R.layout.widget_task_list)
 
-            // RemoteViews 列表：由 TaskWidgetService 提供每一行数据
+            // 按设置页中的透明度渲染背景（0=全透明，100=白底不透明）
+            views.setInt(
+                R.id.widget_root,
+                "setBackgroundColor",
+                app.repository.getWidgetBackgroundColor(),
+            )
+
             val serviceIntent = Intent(context, TaskWidgetService::class.java).apply {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
                 data = android.net.Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
@@ -72,17 +78,6 @@ class TaskWidgetProvider : AppWidgetProvider() {
             views.setRemoteAdapter(R.id.widget_list, serviceIntent)
             views.setEmptyView(R.id.widget_list, R.id.widget_empty)
 
-            // 点击标题 → 打开 App
-            val openAppIntent = Intent(context, MainActivity::class.java)
-            val openAppPending = PendingIntent.getActivity(
-                context,
-                appWidgetId,
-                openAppIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-            )
-            views.setOnClickPendingIntent(R.id.widget_title, openAppPending)
-
-            // 点击任务行 → WidgetToggleReceiver 切换打钩（模板 + 填充模式）
             val toggleIntent = Intent(context, WidgetToggleReceiver::class.java)
             views.setPendingIntentTemplate(
                 R.id.widget_list,
