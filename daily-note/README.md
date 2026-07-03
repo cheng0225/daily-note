@@ -69,3 +69,7 @@ app/src/main/java/com/vibecoding/dailytasks/
 ## 技术栈
 
 Kotlin · Room · App Widget · AlarmManager · minSdk 26 · targetSdk 34
+
+## 发布
+
+Git 仓库在 `C:\Android` 根目录。发布 GitHub Release 见 [`scripts/publish-github.ps1`](../scripts/publish-github.ps1)。
