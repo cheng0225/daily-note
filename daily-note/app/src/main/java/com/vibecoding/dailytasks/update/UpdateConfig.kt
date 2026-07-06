@@ -8,4 +8,5 @@ object UpdateConfig {
     const val USER_AGENT = "DailyNote-Android"
     const val PREFS_NAME = "update_prefs"
     const val KEY_SKIPPED_VERSION = "skipped_version"
+    const val KEY_AUTO_CHECK = "auto_check_enabled"
 }

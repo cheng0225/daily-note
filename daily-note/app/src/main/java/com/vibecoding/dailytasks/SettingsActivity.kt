@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.Slider
 import com.vibecoding.dailytasks.ui.WidgetColorPicker
+import com.vibecoding.dailytasks.update.UpdateManager
+import com.vibecoding.dailytasks.update.UpdatePreferences
 import com.vibecoding.dailytasks.widget.WidgetRefresh
 
 /**
@@ -33,6 +36,12 @@ class SettingsActivity : AppCompatActivity() {
         val fontSizeValueText = findViewById<TextView>(R.id.fontSizeValueText)
         val btnPrimary = findViewById<MaterialButton>(R.id.btnPrimaryColor)
         val btnSecondary = findViewById<MaterialButton>(R.id.btnSecondaryColor)
+        val versionText = findViewById<TextView>(R.id.versionText)
+        val autoUpdateSwitch = findViewById<MaterialSwitch>(R.id.autoUpdateSwitch)
+        val btnCheckUpdate = findViewById<MaterialButton>(R.id.btnCheckUpdate)
+
+        versionText.text = getString(R.string.settings_current_version, BuildConfig.VERSION_NAME)
+        autoUpdateSwitch.isChecked = UpdatePreferences.isAutoCheckEnabled(this)
 
         val current = repository.getWidgetBackgroundOpacity()
         slider.value = current.toFloat()
@@ -81,6 +90,14 @@ class SettingsActivity : AppCompatActivity() {
                 updateColorButton(btnSecondary, color)
                 WidgetRefresh.refreshAll(this)
             }
+        }
+
+        autoUpdateSwitch.setOnCheckedChangeListener { _, isChecked ->
+            UpdatePreferences.setAutoCheckEnabled(this, isChecked)
+        }
+
+        btnCheckUpdate.setOnClickListener {
+            UpdateManager.checkManually(this)
         }
     }
 

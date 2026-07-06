@@ -1,6 +1,5 @@
 package com.vibecoding.dailytasks.update
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,37 +15,68 @@ import java.io.File
 
 object UpdateManager {
 
-    private var checkedThisSession = false
+    private var autoCheckedThisSession = false
 
     fun checkOnLaunch(activity: AppCompatActivity) {
-        if (checkedThisSession || activity.isFinishing) return
-        checkedThisSession = true
+        if (!UpdatePreferences.isAutoCheckEnabled(activity)) return
+        if (autoCheckedThisSession || activity.isFinishing) return
+        autoCheckedThisSession = true
+        performCheck(activity, CheckMode.AUTO)
+    }
 
+    fun checkManually(activity: AppCompatActivity) {
+        if (activity.isFinishing) return
+        performCheck(activity, CheckMode.MANUAL)
+    }
+
+    private enum class CheckMode { AUTO, MANUAL }
+
+    private fun performCheck(activity: AppCompatActivity, mode: CheckMode) {
         activity.lifecycleScope.launch {
+            val checkingDialog = if (mode == CheckMode.MANUAL) {
+                AlertDialog.Builder(activity)
+                    .setMessage(R.string.update_checking)
+                    .setCancelable(false)
+                    .show()
+            } else {
+                null
+            }
+
             val release = try {
                 withContext(Dispatchers.IO) { GithubReleaseClient.fetchLatestRelease() }
             } catch (_: Exception) {
+                checkingDialog?.dismiss()
+                if (mode == CheckMode.MANUAL && !activity.isFinishing) {
+                    showMessage(activity, R.string.update_check_failed_title, R.string.update_check_failed_message)
+                }
                 return@launch
             }
 
-            if (!VersionUtils.isNewer(release.version, BuildConfig.VERSION_NAME)) return@launch
-            if (isSkipped(activity, release.tag)) return@launch
+            checkingDialog?.dismiss()
             if (activity.isFinishing) return@launch
+
+            if (!VersionUtils.isNewer(release.version, BuildConfig.VERSION_NAME)) {
+                if (mode == CheckMode.MANUAL) {
+                    AlertDialog.Builder(activity)
+                        .setTitle(R.string.update_up_to_date_title)
+                        .setMessage(
+                            activity.getString(
+                                R.string.update_up_to_date_message,
+                                BuildConfig.VERSION_NAME,
+                            ),
+                        )
+                        .setPositiveButton(R.string.ok, null)
+                        .show()
+                }
+                return@launch
+            }
+
+            if (mode == CheckMode.AUTO && UpdatePreferences.isSkipped(activity, release.tag)) {
+                return@launch
+            }
 
             showUpdateDialog(activity, release)
         }
-    }
-
-    private fun isSkipped(context: Context, tag: String): Boolean {
-        val prefs = context.getSharedPreferences(UpdateConfig.PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(UpdateConfig.KEY_SKIPPED_VERSION, null) == tag
-    }
-
-    private fun markSkipped(context: Context, tag: String) {
-        context.getSharedPreferences(UpdateConfig.PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(UpdateConfig.KEY_SKIPPED_VERSION, tag)
-            .apply()
     }
 
     private fun showUpdateDialog(activity: AppCompatActivity, release: ReleaseInfo) {
@@ -63,7 +93,7 @@ object UpdateManager {
                 startDownload(activity, release)
             }
             .setNegativeButton(R.string.update_later) { _, _ ->
-                markSkipped(activity, release.tag)
+                UpdatePreferences.markSkipped(activity, release.tag)
             }
             .setCancelable(false)
             .show()
@@ -115,13 +145,16 @@ object UpdateManager {
                 progressDialog.dismiss()
                 if (activity.isFinishing) return@launch
                 apkFile.delete()
-
-                AlertDialog.Builder(activity)
-                    .setTitle(R.string.update_failed_title)
-                    .setMessage(R.string.update_failed_message)
-                    .setPositiveButton(R.string.ok, null)
-                    .show()
+                showMessage(activity, R.string.update_failed_title, R.string.update_failed_message)
             }
         }
+    }
+
+    private fun showMessage(activity: AppCompatActivity, titleRes: Int, messageRes: Int) {
+        AlertDialog.Builder(activity)
+            .setTitle(titleRes)
+            .setMessage(messageRes)
+            .setPositiveButton(R.string.ok, null)
+            .show()
     }
 }

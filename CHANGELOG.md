@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5] - 2026-07-06
+
+### 新增
+
+- **自动更新开关**：设置页可关闭「打开 App 时自动检查更新」
+- **手动检查更新**：设置页「检查更新」按钮，失败时提示开代理
+
 ## [1.4] - 2026-07-06
 
 ### 新增
@@ -37,6 +44,7 @@
 
 首个正式版本。
 
+[1.5]: https://github.com/cheng0225/daily-note/releases/tag/v1.5
 [1.4]: https://github.com/cheng0225/daily-note/releases/tag/v1.4
 [1.3]: https://github.com/cheng0225/daily-note/releases/tag/v1.3
 [1.2]: https://github.com/cheng0225/daily-note/releases/tag/v1.2
