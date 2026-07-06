@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class WidgetToggleReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val taskId = intent.getLongExtra(TaskWidgetProvider.EXTRA_TASK_ID, -1L)
+        val taskId = intent.getLongExtra(BaseTaskWidgetProvider.EXTRA_TASK_ID, -1L)
         if (taskId < 0) return
 
         val pendingResult = goAsync()
@@ -20,7 +20,7 @@ class WidgetToggleReceiver : BroadcastReceiver() {
             try {
                 val app = context.applicationContext as DailyTasksApp
                 app.repository.toggleCompleted(taskId)
-                TaskWidgetProvider.refreshAll(context)
+                WidgetRefresh.refreshAll(context)
             } finally {
                 pendingResult.finish()
             }

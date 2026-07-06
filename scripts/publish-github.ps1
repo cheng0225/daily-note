@@ -8,7 +8,7 @@
 # gh CLI args use ASCII only to avoid PowerShell encoding issues.
 
 param(
-    [string]$Version = "1.1",
+    [string]$Version = "1.2",
     [string]$RepoName = "daily-note",
     [string]$ProxyHost = "127.0.0.1",
     [int]$ProxyPort = 10808,
@@ -104,9 +104,18 @@ if (-not (Test-Path $ApkPath)) {
 
 $hasOrigin = (Invoke-External { git remote get-url origin }) -eq 0
 if (-not $hasOrigin) {
-    Write-Host "Creating repo $RepoName ..." -ForegroundColor Cyan
-    gh repo create $RepoName --public --source=. --remote=origin --description $RepoDescription
-    if ($LASTEXITCODE -ne 0) { exit 1 }
+    Write-Host "Linking remote $RepoName ..." -ForegroundColor Cyan
+    gh repo create $RepoName --public --source=. --remote=origin --description $RepoDescription 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        # Repo may already exist on GitHub — add remote and continue
+        $user = gh api user -q .login
+        git remote add origin "https://github.com/$user/$RepoName.git" 2>$null
+        if (-not (git remote get-url origin 2>$null)) {
+            Write-Host "Failed to link remote. Check: gh repo view $RepoName" -ForegroundColor Red
+            exit 1
+        }
+        Write-Host "Remote linked to existing repo." -ForegroundColor DarkGray
+    }
 } else {
     gh repo edit --description $RepoDescription 2>$null
 }
@@ -118,11 +127,17 @@ Invoke-Git @("tag", "-a", "v$Version", "-m", "Release v$Version") | Out-Null
 if ((Invoke-Git @("push", "origin", "v$Version", "--force")) -ne 0) { exit 1 }
 
 Write-Host "Creating release v$Version ..." -ForegroundColor Cyan
-gh release create "v$Version" `
-    --title $ReleaseTitle `
-    --notes-file CHANGELOG.md `
-    $ApkPath
-if ($LASTEXITCODE -ne 0) { exit 1 }
+$releaseExists = (Invoke-External { gh release view "v$Version" }) -eq 0
+if ($releaseExists) {
+    gh release upload "v$Version" $ApkPath --clobber
+    if ($LASTEXITCODE -ne 0) { exit 1 }
+} else {
+    gh release create "v$Version" `
+        --title $ReleaseTitle `
+        --notes-file CHANGELOG.md `
+        $ApkPath
+    if ($LASTEXITCODE -ne 0) { exit 1 }
+}
 
 $user = gh api user -q .login
 Write-Host ""

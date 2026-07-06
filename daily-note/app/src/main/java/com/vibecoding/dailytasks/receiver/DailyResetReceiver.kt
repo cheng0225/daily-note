@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.vibecoding.dailytasks.DailyTasksApp
 import com.vibecoding.dailytasks.ResetScheduler
-import com.vibecoding.dailytasks.widget.TaskWidgetProvider
+import com.vibecoding.dailytasks.widget.WidgetRefresh
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class DailyResetReceiver : BroadcastReceiver() {
             try {
                 val app = context.applicationContext as DailyTasksApp
                 app.repository.resetAllTasks()
-                TaskWidgetProvider.refreshAll(context)
+                WidgetRefresh.refreshAll(context)
                 ResetScheduler.schedule(context)
             } finally {
                 pendingResult.finish()

@@ -2,20 +2,14 @@
 
 | 文件 | 说明 |
 |------|------|
-| `daily-note-v1.1-debug.apk` | **v1.1** 当前版本 |
+| `daily-note-v1.2-debug.apk` | **v1.2** 当前版本 |
 
-## v1.1 更新
+## v1.2 更新
 
-- 设置页：调节便签背景透明度
-- 去掉便签顶部「今日任务」标题
-
-```bat
-adb install -r releases\daily-note-v1.1-debug.apk
-```
-
-## 构建
+- 两种便签：**2×3**（大）、**2×2**（小）
+- 毛玻璃样式 + 可调强度
+- 自定义未完成 / 已完成文字颜色
 
 ```bat
-cd daily-note
-gradlew.bat assembleDebug
+adb install -r releases\daily-note-v1.2-debug.apk
 ```

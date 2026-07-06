@@ -1,7 +1,6 @@
 package com.vibecoding.dailytasks
 
 import android.app.TimePickerDialog
-import android.appwidget.AppWidgetManager
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -13,7 +12,7 @@ import com.vibecoding.dailytasks.data.TaskEntity
 import com.vibecoding.dailytasks.data.TaskRepository
 import com.vibecoding.dailytasks.databinding.ActivityMainBinding
 import com.vibecoding.dailytasks.ui.TaskAdapter
-import com.vibecoding.dailytasks.widget.TaskWidgetProvider
+import com.vibecoding.dailytasks.widget.WidgetRefresh
 import kotlinx.coroutines.launch
 
 /**
@@ -166,13 +165,7 @@ class MainActivity : AppCompatActivity() {
 
     /** 通知所有已放置的小组件刷新显示 */
     private fun refreshWidget() {
-        val manager = AppWidgetManager.getInstance(this)
-        val ids = manager.getAppWidgetIds(
-            android.content.ComponentName(this, TaskWidgetProvider::class.java),
-        )
-        if (ids.isNotEmpty()) {
-            TaskWidgetProvider.updateAll(this, manager, ids)
-        }
+        WidgetRefresh.refreshAll(this)
     }
 
     override fun onResume() {

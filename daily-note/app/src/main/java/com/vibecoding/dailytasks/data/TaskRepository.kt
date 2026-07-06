@@ -100,8 +100,7 @@ class TaskRepository(context: Context, database: AppDatabase) {
     }
 
     /**
-     * 便签背景不透明度 0～100。
-     * 0 = 完全透明；100 = 不透明白色底。
+     * 毛玻璃强度 0～100。0=几乎不可见，100=完全不透明。
      */
     fun getWidgetBackgroundOpacity(): Int =
         prefs.getInt(KEY_WIDGET_BG_OPACITY, DEFAULT_WIDGET_BG_OPACITY)
@@ -110,10 +109,25 @@ class TaskRepository(context: Context, database: AppDatabase) {
         prefs.edit { putInt(KEY_WIDGET_BG_OPACITY, opacity.coerceIn(0, 100)) }
     }
 
-    /** 转为 ARGB 颜色，供 RemoteViews 设置背景 */
-    fun getWidgetBackgroundColor(): Int {
+    fun getWidgetTextPrimaryColor(): Int =
+        prefs.getInt(KEY_WIDGET_TEXT_PRIMARY, DEFAULT_WIDGET_TEXT_PRIMARY)
+
+    fun setWidgetTextPrimaryColor(color: Int) {
+        prefs.edit { putInt(KEY_WIDGET_TEXT_PRIMARY, color) }
+    }
+
+    fun getWidgetTextSecondaryColor(): Int =
+        prefs.getInt(KEY_WIDGET_TEXT_SECONDARY, DEFAULT_WIDGET_TEXT_SECONDARY)
+
+    fun setWidgetTextSecondaryColor(color: Int) {
+        prefs.edit { putInt(KEY_WIDGET_TEXT_SECONDARY, color) }
+    }
+
+    fun getWidgetBackgroundColor(): Int = getWidgetGlassColor()
+
+    fun getWidgetGlassColor(): Int {
         val alpha = (getWidgetBackgroundOpacity() * 255 / 100f).toInt()
-        return Color.argb(alpha, 255, 255, 255)
+        return Color.argb(alpha, 245, 247, 252)
     }
 
     fun markResetDoneToday() {
@@ -131,9 +145,13 @@ class TaskRepository(context: Context, database: AppDatabase) {
         const val KEY_RESET_HOUR = "reset_hour"
         const val KEY_RESET_MINUTE = "reset_minute"
         const val KEY_WIDGET_BG_OPACITY = "widget_bg_opacity"
+        const val KEY_WIDGET_TEXT_PRIMARY = "widget_text_primary"
+        const val KEY_WIDGET_TEXT_SECONDARY = "widget_text_secondary"
         const val DEFAULT_RESET_HOUR = 8
         const val DEFAULT_RESET_MINUTE = 0
-        const val DEFAULT_WIDGET_BG_OPACITY = 0
+        const val DEFAULT_WIDGET_BG_OPACITY = 75
+        const val DEFAULT_WIDGET_TEXT_PRIMARY = 0xDE000000.toInt()
+        const val DEFAULT_WIDGET_TEXT_SECONDARY = 0x99000000.toInt()
         const val MAX_TASKS = 15
     }
 }

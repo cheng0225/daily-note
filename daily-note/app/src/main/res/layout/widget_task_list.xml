@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="4dp">
 
-    <ListView
-        android:id="@+id/widget_list"
+    <ImageView
+        android:id="@+id/widget_glass_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="4dp"
-        android:listSelector="@android:color/transparent" />
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/widget_glass_bg" />
 
-    <TextView
-        android:id="@+id/widget_empty"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:shadowColor="@color/widget_text_shadow"
-        android:shadowDx="0"
-        android:shadowDy="1"
-        android:shadowRadius="3"
-        android:text="@string/widget_empty"
-        android:textColor="@color/widget_text_secondary" />
+        android:orientation="vertical"
+        android:padding="10dp">
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/widget_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="3dp"
+            android:listSelector="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/widget_empty"
+            android:textSize="14sp" />
+    </LinearLayout>
+</FrameLayout>
