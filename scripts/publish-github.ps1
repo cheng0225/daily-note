@@ -82,14 +82,19 @@ if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-if ((Invoke-External { gh auth status }) -ne 0) {
-    Write-Host "Login to GitHub in browser..." -ForegroundColor Yellow
+# Use local keyring token — gh auth status hits the network and may false-fail behind proxy.
+$ghToken = & gh auth token 2>$null
+if ($LASTEXITCODE -ne 0 -or -not $ghToken) {
+    Write-Host "GitHub CLI not logged in. One-time login (token saved to Windows Credential Manager):" -ForegroundColor Yellow
     Write-Host "If it times out, check v2rayN is on and port $ProxyPort is open." -ForegroundColor DarkGray
     gh auth login --hostname github.com --git-protocol https --web
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Login failed. Try: v2rayN on + run script again, or -ProxyType http" -ForegroundColor Red
         exit 1
     }
+    gh auth setup-git | Out-Null
+} else {
+    Write-Host "GitHub CLI: using saved token (no browser needed)" -ForegroundColor DarkGray
 }
 
 $ApkPath = Join-Path $Root "daily-note\releases\daily-note-v$Version-debug.apk"
@@ -123,8 +128,21 @@ if (-not $hasOrigin) {
 Write-Host "Pushing code..." -ForegroundColor Cyan
 if ((Invoke-Git @("push", "-u", "origin", "main")) -ne 0) { exit 1 }
 
-Invoke-Git @("tag", "-a", "v$Version", "-m", "Release v$Version") | Out-Null
-if ((Invoke-Git @("push", "origin", "v$Version", "--force")) -ne 0) { exit 1 }
+$tagName = "v$Version"
+$tagExists = (Invoke-External { git rev-parse "refs/tags/$tagName" }) -eq 0
+if (-not $tagExists) {
+    Write-Host "Creating tag $tagName ..." -ForegroundColor Cyan
+    if ((Invoke-Git @("tag", "-a", $tagName, "-m", "Release v$Version")) -ne 0) {
+        Write-Host "Failed to create tag $tagName" -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host "Tag $tagName already exists locally, pushing..." -ForegroundColor DarkGray
+}
+if ((Invoke-Git @("push", "origin", $tagName, "--force")) -ne 0) {
+    Write-Host "Failed to push tag $tagName" -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "Creating release v$Version ..." -ForegroundColor Cyan
 $releaseExists = (Invoke-External { gh release view "v$Version" }) -eq 0
