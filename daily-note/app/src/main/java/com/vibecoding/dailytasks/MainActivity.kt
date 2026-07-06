@@ -12,6 +12,7 @@ import com.vibecoding.dailytasks.data.TaskEntity
 import com.vibecoding.dailytasks.data.TaskRepository
 import com.vibecoding.dailytasks.databinding.ActivityMainBinding
 import com.vibecoding.dailytasks.ui.TaskAdapter
+import com.vibecoding.dailytasks.update.UpdateManager
 import com.vibecoding.dailytasks.widget.WidgetRefresh
 import kotlinx.coroutines.launch
 
@@ -65,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                 updateEmptyState(tasks)
                 updateProgress(tasks)
             }
+        }
+
+        if (savedInstanceState == null) {
+            UpdateManager.checkOnLaunch(this)
         }
     }
 

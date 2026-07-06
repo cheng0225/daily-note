@@ -20,3 +20,4 @@ Android/
 
 1. 阅读 [vibe-coding/docs/REQUIREMENTS.md](vibe-coding/docs/REQUIREMENTS.md) 了解需求
 2. 用 Android Studio 打开 `daily-note/` 目录运行项目
+3. 学习文档见 [`daily-note/docs/README.md`](daily-note/docs/README.md)（含 v1.3 在线更新说明）

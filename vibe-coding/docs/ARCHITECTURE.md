@@ -12,9 +12,10 @@
 │    └── App Widget（今日任务列表 + 点击打钩）              │
 ├─────────────────────────────────────────────────────────┤
 │  本应用                                                  │
-│    ├── MainActivity（任务编辑 + 重置时间设置）            │
+│    ├── MainActivity（任务编辑 + 重置时间设置 + 启动检查更新）
 │    ├── TaskWidgetProvider（小组件逻辑）                   │
 │    ├── TaskRepository（读写本地数据）                     │
+│    ├── update/（GitHub Release 检查、下载、安装）          │
 │    └── DailyResetReceiver / Worker（定时重置）            │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -28,6 +29,7 @@
 | **data** | 任务实体、Repository、本地存储 |
 | **domain** | 重置判断、状态切换（可选，小项目可合并到 data） |
 | **receiver** | 每日闹钟触发、开机补重置（`BOOT_COMPLETED`） |
+| **update** | GitHub API 查版本、下载 APK、FileProvider 安装 |
 
 ## 3. 关键技术点
 
@@ -73,13 +75,30 @@ Alarm 触发 / 开机启动
 - **AlarmManager.setExactAndAllowWhileIdle** 或 **WorkManager PeriodicWork**（精确到分钟用 Alarm 更合适）
 - 监听 `ACTION_BOOT_COMPLETED`：开机后检查是否漏重置
 
-### 3.4 权限（预估）
+### 3.4 在线更新（v1.3）
+
+```
+App 冷启动
+    → GET /repos/{owner}/{repo}/releases/latest
+    → 比较 tag 与 BuildConfig.VERSION_NAME
+    → 有新版本且未跳过 → 弹窗
+    → 下载 browser_download_url → cacheDir
+    → FileProvider + ACTION_VIEW 调系统安装器
+```
+
+- 仓库：`cheng0225/daily-note`
+- APK 命名：`daily-note-v{versionName}-debug.apk`
+- 网络失败：启动检查静默；用户点更新后下载失败则提示开代理
+
+### 3.5 权限
 
 | 权限 | 用途 |
 |------|------|
 | `RECEIVE_BOOT_COMPLETED` | 开机补重置 |
 | `SCHEDULE_EXACT_ALARM` | Android 12+ 精确定时（若 targetSdk ≥ 31） |
-| `POST_NOTIFICATIONS` | MVP 不需要（无通知） |
+| `INTERNET` | GitHub Release 检查与 APK 下载 |
+| `REQUEST_INSTALL_PACKAGES` | Android 8+ 安装更新包 |
+| `POST_NOTIFICATIONS` | 不需要（无通知） |
 
 ## 4. 包结构（拟定）
 
@@ -98,6 +117,10 @@ com.vibecoding.dailytasks
 ├── receiver
 │   ├── DailyResetReceiver.kt
 │   └── BootReceiver.kt
+├── update
+│   ├── UpdateManager.kt
+│   ├── GithubReleaseClient.kt
+│   └── ApkInstaller.kt
 └── DailyTasksApp.kt
 ```
 
@@ -109,6 +132,7 @@ com.vibecoding.dailytasks
 | 小组件点击无响应 | 各 ROM 测试；PendingIntent 使用唯一 requestCode |
 | 精确闹钟权限被用户拒绝 | 设置页说明用途；降级为近似闹钟 + 打开 App 时校验 |
 | RemoteViews 列表刷新慢 | 单条更新后局部 `notifyAppWidgetViewDataChanged` |
+| GitHub 国内不可达 | 下载失败提示开代理；启动检查失败静默跳过 |
 
 ## 6. 依赖（拟定）
 
@@ -118,4 +142,4 @@ com.vibecoding.dailytasks
 
 ---
 
-*文档版本：v0.1*
+*文档版本：v0.2 | 更新日期：2026-07-06*

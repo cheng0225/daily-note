@@ -1,12 +1,12 @@
 # 每日便签
 
-桌面每日任务便签 Android App（**v1.2**）。
+桌面每日任务便签 Android App（**v1.3**）。
 
 > 需求文档见上级目录 [`vibe-coding`](../vibe-coding/README.md)。
 
 ## 学习文档
 
-想读懂代码？从 [`docs/README.md`](docs/README.md) 开始，按顺序阅读 01～05。
+想读懂代码？从 [`docs/README.md`](docs/README.md) 开始，按顺序阅读 01～07。
 
 ## 功能
 
@@ -18,6 +18,7 @@
 - 两种桌面便签：**2×3**（大）、**2×2**（小）
 - **毛玻璃**便签样式，设置页可调强度
 - **自定义**未完成 / 已完成文字颜色
+- **在线更新**（v1.3）：打开 App 检查 GitHub Release，App 内下载并安装
 
 ## 如何运行
 
@@ -37,7 +38,7 @@ gradlew.bat assembleDebug
 构建完成后，安装包会自动复制到：
 
 ```
-releases/daily-note-v0.1.0-debug.apk
+releases/daily-note-v{version}-debug.apk
 ```
 
 原始输出路径：`app\build\outputs\apk\debug\app-debug.apk`
@@ -48,7 +49,7 @@ releases/daily-note-v0.1.0-debug.apk
 2. 传到手机并点击安装（USB 连接时可直接复制到手机存储）
 
 ```bat
-adb install -r releases\daily-note-v0.1.0-debug.apk
+adb install -r releases\daily-note-v1.3-debug.apk
 ```
 
 ## 添加桌面小组件
@@ -65,6 +66,7 @@ app/src/main/java/com/vibecoding/dailytasks/
 ├── data/          # Room 数据库
 ├── ui/            # 列表适配器
 ├── widget/        # 桌面小组件
+├── update/        # GitHub 在线更新（v1.3）
 └── receiver/      # 定时重置、开机广播
 ```
 

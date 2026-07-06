@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3] - 2026-07-06
+
+### 新增
+
+- **在线更新**：打开 App 时检查 GitHub Release
+- App 内下载 APK，完成后调系统安装器
+- 用户可「稍后」跳过；下载失败提示开启代理
+
 ## [1.2] - 2026-07-06
 
 ### 新增
@@ -23,6 +31,7 @@
 
 首个正式版本。
 
+[1.3]: https://github.com/cheng0225/daily-note/releases/tag/v1.3
 [1.2]: https://github.com/cheng0225/daily-note/releases/tag/v1.2
 [1.1]: https://github.com/cheng0225/daily-note/releases/tag/v1.1
 [1.0]: https://github.com/cheng0225/daily-note/releases/tag/v1.0

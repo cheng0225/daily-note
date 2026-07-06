@@ -12,6 +12,7 @@
 | 4 | [桌面小组件](04-桌面小组件.md) | App Widget、透明样式、点击打钩 |
 | 5 | [每日重置](05-每日重置.md) | 闹钟、开机补重置、改时间逻辑 |
 | 6 | [设置页](06-设置.md) | 便签透明度、小组件样式 |
+| 7 | [在线更新](07-在线更新.md) | GitHub Release 检查、下载、安装 |
 
 ## 源码文件对照
 
@@ -22,8 +23,9 @@ app/src/main/java/com/vibecoding/dailytasks/
 ├── SettingsActivity.kt    → 设置页（见 06）
 ├── ResetScheduler.kt      → 闹钟调度（见 05）
 ├── data/                  → 数据层（见 02）
-├── ui/TaskAdapter.kt      → 任务列表适配器
+├── ui/            # 列表适配器
 ├── widget/                → 小组件（见 04）
+├── update/                → 在线更新（见 07）
 └── receiver/              → 广播接收器（见 05）
 ```
 
