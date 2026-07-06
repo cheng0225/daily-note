@@ -129,7 +129,7 @@ Write-Host "Pushing code..." -ForegroundColor Cyan
 if ((Invoke-Git @("push", "-u", "origin", "main")) -ne 0) { exit 1 }
 
 $tagName = "v$Version"
-$tagExists = (Invoke-External { git rev-parse "refs/tags/$tagName" }) -eq 0
+$tagExists = [bool](& git tag -l $tagName 2>$null)
 if (-not $tagExists) {
     Write-Host "Creating tag $tagName ..." -ForegroundColor Cyan
     if ((Invoke-Git @("tag", "-a", $tagName, "-m", "Release v$Version")) -ne 0) {
