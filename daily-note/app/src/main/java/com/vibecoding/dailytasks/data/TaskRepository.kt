@@ -3,6 +3,7 @@ package com.vibecoding.dailytasks.data
 import android.content.Context
 import android.graphics.Color
 import androidx.core.content.edit
+import com.vibecoding.dailytasks.widget.WidgetFontSizes
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.LocalTime
@@ -123,6 +124,14 @@ class TaskRepository(context: Context, database: AppDatabase) {
         prefs.edit { putInt(KEY_WIDGET_TEXT_SECONDARY, color) }
     }
 
+    /** 便签字号档位 0～3，0 为最小（默认） */
+    fun getWidgetFontSizeLevel(): Int =
+        WidgetFontSizes.coerceLevel(prefs.getInt(KEY_WIDGET_FONT_SIZE, WidgetFontSizes.DEFAULT_LEVEL))
+
+    fun setWidgetFontSizeLevel(level: Int) {
+        prefs.edit { putInt(KEY_WIDGET_FONT_SIZE, WidgetFontSizes.coerceLevel(level)) }
+    }
+
     fun getWidgetBackgroundColor(): Int = getWidgetGlassColor()
 
     fun getWidgetGlassColor(): Int {
@@ -147,6 +156,7 @@ class TaskRepository(context: Context, database: AppDatabase) {
         const val KEY_WIDGET_BG_OPACITY = "widget_bg_opacity"
         const val KEY_WIDGET_TEXT_PRIMARY = "widget_text_primary"
         const val KEY_WIDGET_TEXT_SECONDARY = "widget_text_secondary"
+        const val KEY_WIDGET_FONT_SIZE = "widget_font_size"
         const val DEFAULT_RESET_HOUR = 8
         const val DEFAULT_RESET_MINUTE = 0
         const val DEFAULT_WIDGET_BG_OPACITY = 75

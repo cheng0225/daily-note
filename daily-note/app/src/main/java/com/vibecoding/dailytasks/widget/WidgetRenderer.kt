@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.util.TypedValue
 import android.widget.RemoteViews
 import com.vibecoding.dailytasks.DailyTasksApp
 import com.vibecoding.dailytasks.R
@@ -33,6 +34,13 @@ object WidgetRenderer {
         views.setEmptyView(R.id.widget_list, R.id.widget_empty)
 
         views.setTextColor(R.id.widget_empty, repo.getWidgetTextPrimaryColor())
+        val fontLevel = repo.getWidgetFontSizeLevel()
+        val emptySp = if (WidgetFontSizes.isCompactItemLayout(itemLayout)) {
+            WidgetFontSizes.emptyCompactSp(fontLevel)
+        } else {
+            WidgetFontSizes.emptyLargeSp(fontLevel)
+        }
+        views.setTextViewTextSize(R.id.widget_empty, TypedValue.COMPLEX_UNIT_SP, emptySp.toFloat())
 
         val toggleIntent = Intent(context, WidgetToggleReceiver::class.java)
         views.setPendingIntentTemplate(

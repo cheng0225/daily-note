@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4] - 2026-07-06
+
+### 新增
+
+- **桌面便签字体大小**：设置页 4 档调节（默认最小，与 v1.2 字号一致）
+
 ## [1.3] - 2026-07-06
 
 ### 新增
@@ -31,6 +37,7 @@
 
 首个正式版本。
 
+[1.4]: https://github.com/cheng0225/daily-note/releases/tag/v1.4
 [1.3]: https://github.com/cheng0225/daily-note/releases/tag/v1.3
 [1.2]: https://github.com/cheng0225/daily-note/releases/tag/v1.2
 [1.1]: https://github.com/cheng0225/daily-note/releases/tag/v1.1

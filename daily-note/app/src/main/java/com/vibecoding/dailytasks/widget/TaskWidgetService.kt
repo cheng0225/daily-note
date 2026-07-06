@@ -1,6 +1,7 @@
 package com.vibecoding.dailytasks.widget
 
 import android.content.Intent
+import android.util.TypedValue
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.vibecoding.dailytasks.DailyTasksApp
@@ -22,6 +23,7 @@ class TaskWidgetService : RemoteViewsService() {
         private var tasks: List<com.vibecoding.dailytasks.data.TaskEntity> = emptyList()
         private var primaryColor = 0
         private var secondaryColor = 0
+        private var fontSizeLevel = WidgetFontSizes.DEFAULT_LEVEL
 
         override fun onCreate() = Unit
 
@@ -30,6 +32,7 @@ class TaskWidgetService : RemoteViewsService() {
             tasks = runBlocking { app.repository.getTasks() }
             primaryColor = app.repository.getWidgetTextPrimaryColor()
             secondaryColor = app.repository.getWidgetTextSecondaryColor()
+            fontSizeLevel = app.repository.getWidgetFontSizeLevel()
         }
 
         override fun onDestroy() {
@@ -49,6 +52,19 @@ class TaskWidgetService : RemoteViewsService() {
             val color = if (task.isCompleted) secondaryColor else primaryColor
             views.setTextColor(R.id.widget_item_title, color)
             views.setTextColor(R.id.widget_item_check, color)
+
+            val titleSp = if (WidgetFontSizes.isCompactItemLayout(itemLayout)) {
+                WidgetFontSizes.compactTitleSp(fontSizeLevel)
+            } else {
+                WidgetFontSizes.largeTitleSp(fontSizeLevel)
+            }
+            val checkSp = if (WidgetFontSizes.isCompactItemLayout(itemLayout)) {
+                WidgetFontSizes.compactCheckSp(fontSizeLevel)
+            } else {
+                WidgetFontSizes.largeCheckSp(fontSizeLevel)
+            }
+            views.setTextViewTextSize(R.id.widget_item_title, TypedValue.COMPLEX_UNIT_SP, titleSp.toFloat())
+            views.setTextViewTextSize(R.id.widget_item_check, TypedValue.COMPLEX_UNIT_SP, checkSp.toFloat())
 
             val fillIntent = Intent().apply {
                 putExtra(BaseTaskWidgetProvider.EXTRA_TASK_ID, task.id)

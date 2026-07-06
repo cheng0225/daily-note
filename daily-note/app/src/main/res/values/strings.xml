@@ -26,6 +26,12 @@
     <string name="settings_widget_section">桌面便签样式</string>
     <string name="settings_glass_hint">毛玻璃强度：0% 几乎透明，100% 完全不透明。</string>
     <string name="settings_glass_value">毛玻璃强度：%1$d%%</string>
+    <string name="settings_font_size_hint">便签字体大小：当前默认档为最小，可向右调大。</string>
+    <string name="settings_font_size_value">便签字体：%1$s</string>
+    <string name="settings_font_size_min">最小</string>
+    <string name="settings_font_size_s">较小</string>
+    <string name="settings_font_size_m">中等</string>
+    <string name="settings_font_size_l">较大</string>
     <string name="settings_text_color_section">文字颜色</string>
     <string name="settings_text_primary">未完成文字颜色</string>
     <string name="settings_text_secondary">已完成文字颜色</string>

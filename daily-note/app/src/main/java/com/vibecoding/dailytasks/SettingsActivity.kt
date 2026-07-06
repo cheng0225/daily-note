@@ -29,12 +29,17 @@ class SettingsActivity : AppCompatActivity() {
 
         val slider = findViewById<Slider>(R.id.opacitySlider)
         val valueText = findViewById<TextView>(R.id.opacityValueText)
+        val fontSizeSlider = findViewById<Slider>(R.id.fontSizeSlider)
+        val fontSizeValueText = findViewById<TextView>(R.id.fontSizeValueText)
         val btnPrimary = findViewById<MaterialButton>(R.id.btnPrimaryColor)
         val btnSecondary = findViewById<MaterialButton>(R.id.btnSecondaryColor)
 
         val current = repository.getWidgetBackgroundOpacity()
         slider.value = current.toFloat()
         updateOpacityLabel(valueText, current)
+        val fontLevel = repository.getWidgetFontSizeLevel()
+        fontSizeSlider.value = fontLevel.toFloat()
+        updateFontSizeLabel(fontSizeValueText, fontLevel)
         updateColorButton(btnPrimary, repository.getWidgetTextPrimaryColor())
         updateColorButton(btnSecondary, repository.getWidgetTextSecondaryColor())
 
@@ -43,6 +48,14 @@ class SettingsActivity : AppCompatActivity() {
             val opacity = value.toInt()
             repository.setWidgetBackgroundOpacity(opacity)
             updateOpacityLabel(valueText, opacity)
+            WidgetRefresh.refreshAll(this)
+        }
+
+        fontSizeSlider.addOnChangeListener { _, value, fromUser ->
+            if (!fromUser) return@addOnChangeListener
+            val level = value.toInt()
+            repository.setWidgetFontSizeLevel(level)
+            updateFontSizeLabel(fontSizeValueText, level)
             WidgetRefresh.refreshAll(this)
         }
 
@@ -73,6 +86,16 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateOpacityLabel(textView: TextView, opacity: Int) {
         textView.text = getString(R.string.settings_glass_value, opacity)
+    }
+
+    private fun updateFontSizeLabel(textView: TextView, level: Int) {
+        val label = when (level) {
+            0 -> getString(R.string.settings_font_size_min)
+            1 -> getString(R.string.settings_font_size_s)
+            2 -> getString(R.string.settings_font_size_m)
+            else -> getString(R.string.settings_font_size_l)
+        }
+        textView.text = getString(R.string.settings_font_size_value, label)
     }
 
     private fun updateColorButton(button: MaterialButton, color: Int) {
