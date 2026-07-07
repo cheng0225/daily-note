@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6] - 2026-07-07
+
+### 修复
+
+- **设置页闪退**：MaterialSwitch 与主题不兼容，改为 SwitchMaterial
+- **到点未自动重置**：改用系统闹钟级 `setAlarmClock`，提高国产 ROM 准时触发率
+
+### 改进
+
+- 设置页补充定时重置权限说明（自启动 / 省电 / 闹钟权限）
+
 ## [1.5] - 2026-07-06
 
 ### 新增
@@ -44,6 +55,7 @@
 
 首个正式版本。
 
+[1.6]: https://github.com/cheng0225/daily-note/releases/tag/v1.6
 [1.5]: https://github.com/cheng0225/daily-note/releases/tag/v1.5
 [1.4]: https://github.com/cheng0225/daily-note/releases/tag/v1.4
 [1.3]: https://github.com/cheng0225/daily-note/releases/tag/v1.3

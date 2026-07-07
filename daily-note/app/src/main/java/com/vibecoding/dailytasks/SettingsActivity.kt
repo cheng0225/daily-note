@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.Slider
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.vibecoding.dailytasks.ui.WidgetColorPicker
 import com.vibecoding.dailytasks.update.UpdateManager
 import com.vibecoding.dailytasks.update.UpdatePreferences
@@ -37,7 +37,7 @@ class SettingsActivity : AppCompatActivity() {
         val btnPrimary = findViewById<MaterialButton>(R.id.btnPrimaryColor)
         val btnSecondary = findViewById<MaterialButton>(R.id.btnSecondaryColor)
         val versionText = findViewById<TextView>(R.id.versionText)
-        val autoUpdateSwitch = findViewById<MaterialSwitch>(R.id.autoUpdateSwitch)
+        val autoUpdateSwitch = findViewById<SwitchMaterial>(R.id.autoUpdateSwitch)
         val btnCheckUpdate = findViewById<MaterialButton>(R.id.btnCheckUpdate)
 
         versionText.text = getString(R.string.settings_current_version, BuildConfig.VERSION_NAME)

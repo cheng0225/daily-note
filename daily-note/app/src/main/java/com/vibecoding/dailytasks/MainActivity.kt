@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repository.ensureDailyReset()
+            ResetScheduler.schedule(this@MainActivity)
             refreshWidget()
         }
 
@@ -178,6 +179,7 @@ class MainActivity : AppCompatActivity() {
         binding.resetTimeText.text = getString(R.string.reset_time, repository.formatResetTime())
         lifecycleScope.launch {
             repository.ensureDailyReset()
+            ResetScheduler.schedule(this@MainActivity)
             refreshWidget()
         }
     }
