@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.1] - 2026-07-07
+
+### 修复
+
+- **启动闪退**：`setAlarmClock` 在部分 vivo 机型抛异常，已捕获并降级；Application 启动时延迟注册闹钟
+
 ## [1.6] - 2026-07-07
 
 ### 修复
@@ -55,6 +61,7 @@
 
 首个正式版本。
 
+[1.6.1]: https://github.com/cheng0225/daily-note/releases/tag/v1.6.1
 [1.6]: https://github.com/cheng0225/daily-note/releases/tag/v1.6
 [1.5]: https://github.com/cheng0225/daily-note/releases/tag/v1.5
 [1.4]: https://github.com/cheng0225/daily-note/releases/tag/v1.4

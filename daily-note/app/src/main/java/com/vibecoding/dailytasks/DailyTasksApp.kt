@@ -17,6 +17,9 @@ class DailyTasksApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ResetScheduler.schedule(this)
+        // 延迟注册，避免 Application 启动阶段因闹钟 API 异常导致闪退
+        android.os.Handler(mainLooper).post {
+            ResetScheduler.schedule(this)
+        }
     }
 }
