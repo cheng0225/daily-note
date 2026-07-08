@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.vibecoding.dailytasks.DailyTasksApp
+import com.vibecoding.dailytasks.data.ResetSnapshotSource
 import com.vibecoding.dailytasks.ResetScheduler
 import com.vibecoding.dailytasks.widget.WidgetRefresh
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,7 @@ class DailyResetReceiver : BroadcastReceiver() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val app = context.applicationContext as DailyTasksApp
-                app.repository.resetAllTasks()
+                app.repository.resetAllTasks(ResetSnapshotSource.SCHEDULED)
                 WidgetRefresh.refreshAll(context)
                 ResetScheduler.schedule(context)
             } finally {

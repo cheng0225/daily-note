@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8] - 2026-07-08
+
+### 新增
+
+- **历史快照**：每次重置前自动存档
+- 底部 **今日 / 历史** 双 Tab；历史页可展开只读对比完成情况
+- 显示重置来源（手动/定时/便签/补重置）与 `完成数/总数`
+
 ## [1.7] - 2026-07-08
 
 ### 新增
@@ -67,6 +75,7 @@
 
 首个正式版本。
 
+[1.8]: https://github.com/cheng0225/daily-note/releases/tag/v1.8
 [1.7]: https://github.com/cheng0225/daily-note/releases/tag/v1.7
 [1.6.1]: https://github.com/cheng0225/daily-note/releases/tag/v1.6.1
 [1.6]: https://github.com/cheng0225/daily-note/releases/tag/v1.6

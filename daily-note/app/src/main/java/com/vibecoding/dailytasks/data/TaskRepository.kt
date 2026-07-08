@@ -20,9 +20,12 @@ import java.time.temporal.ChronoUnit
 class TaskRepository(context: Context, database: AppDatabase) {
 
     private val taskDao = database.taskDao()
+    private val snapshotDao = database.resetSnapshotDao()
     private val prefs = context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun observeTasks(): Flow<List<TaskEntity>> = taskDao.observeAll()
+
+    fun observeSnapshots(): Flow<List<SnapshotWithItems>> = snapshotDao.observeAllWithItems()
 
     suspend fun getTasks(): List<TaskEntity> = taskDao.getAll()
 
@@ -72,13 +75,37 @@ class TaskRepository(context: Context, database: AppDatabase) {
         val shouldReset = daysSince > 1 || !now.isBefore(resetTime)
 
         if (shouldReset) {
-            resetAllTasks()
+            resetAllTasks(ResetSnapshotSource.CATCHUP)
         }
     }
 
-    suspend fun resetAllTasks() {
+    suspend fun resetAllTasks(source: ResetSnapshotSource = ResetSnapshotSource.MANUAL) {
+        saveSnapshot(source)
         taskDao.resetAllCompleted()
         prefs.edit { putString(KEY_LAST_RESET_DATE, LocalDate.now().toString()) }
+    }
+
+    private suspend fun saveSnapshot(source: ResetSnapshotSource) {
+        val tasks = taskDao.getAll()
+        val snapshotId = snapshotDao.insertSnapshot(
+            ResetSnapshotEntity(
+                resetAt = System.currentTimeMillis(),
+                doneCount = tasks.count { it.isCompleted },
+                totalCount = tasks.size,
+                source = source.value,
+            ),
+        )
+        if (tasks.isEmpty()) return
+        snapshotDao.insertItems(
+            tasks.map { task ->
+                ResetSnapshotItemEntity(
+                    snapshotId = snapshotId,
+                    title = task.title,
+                    sortOrder = task.sortOrder,
+                    isCompleted = task.isCompleted,
+                )
+            },
+        )
     }
 
     fun getResetTime(): LocalTime {
