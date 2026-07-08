@@ -58,6 +58,10 @@
             android:name=".widget.WidgetToggleReceiver"
             android:exported="false" />
 
+        <receiver
+            android:name=".widget.WidgetResetReceiver"
+            android:exported="false" />
+
         <service
             android:name=".widget.TaskWidgetService"
             android:exported="false"

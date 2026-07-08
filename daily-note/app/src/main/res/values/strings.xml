@@ -8,6 +8,8 @@
     <string name="widget_description_small">便签 2×2</string>
     <string name="empty_tasks">还没有任务，点右下角添加</string>
     <string name="widget_empty">暂无任务</string>
+    <string name="widget_reset_now">立即重置</string>
+    <string name="widget_reset_short">重置</string>
     <string name="add_task">添加任务</string>
     <string name="edit_task">编辑任务</string>
     <string name="task_hint">输入任务内容</string>

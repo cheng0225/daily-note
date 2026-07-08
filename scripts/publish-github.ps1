@@ -8,7 +8,7 @@
 # gh CLI args use ASCII only to avoid PowerShell encoding issues.
 
 param(
-    [string]$Version = "1.6.1",
+    [string]$Version = "1.7",
     [string]$RepoName = "daily-note",
     [string]$ProxyHost = "127.0.0.1",
     [int]$ProxyPort = 10808,

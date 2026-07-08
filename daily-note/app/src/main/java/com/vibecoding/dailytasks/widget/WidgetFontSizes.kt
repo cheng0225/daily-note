@@ -13,6 +13,8 @@ object WidgetFontSizes {
     private val COMPACT_CHECK = intArrayOf(15, 17, 19, 21)
     private val EMPTY_LARGE = intArrayOf(14, 16, 18, 20)
     private val EMPTY_COMPACT = intArrayOf(12, 14, 16, 18)
+    private val RESET_LARGE = intArrayOf(12, 13, 14, 15)
+    private val RESET_COMPACT = intArrayOf(11, 12, 13, 14)
 
     fun coerceLevel(level: Int): Int = level.coerceIn(MIN_LEVEL, MAX_LEVEL)
 
@@ -27,6 +29,10 @@ object WidgetFontSizes {
     fun emptyLargeSp(level: Int): Int = EMPTY_LARGE[coerceLevel(level)]
 
     fun emptyCompactSp(level: Int): Int = EMPTY_COMPACT[coerceLevel(level)]
+
+    fun resetLargeSp(level: Int): Int = RESET_LARGE[coerceLevel(level)]
+
+    fun resetCompactSp(level: Int): Int = RESET_COMPACT[coerceLevel(level)]
 
     fun isCompactItemLayout(itemLayout: Int): Boolean =
         itemLayout == com.vibecoding.dailytasks.R.layout.widget_task_item_compact

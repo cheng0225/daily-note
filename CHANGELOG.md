@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7] - 2026-07-08
+
+### 新增
+
+- **桌面便签立即重置**：大便签底部「立即重置」、小便签「重置」，无需打开 App
+
 ## [1.6.1] - 2026-07-07
 
 ### 修复
@@ -61,6 +67,7 @@
 
 首个正式版本。
 
+[1.7]: https://github.com/cheng0225/daily-note/releases/tag/v1.7
 [1.6.1]: https://github.com/cheng0225/daily-note/releases/tag/v1.6.1
 [1.6]: https://github.com/cheng0225/daily-note/releases/tag/v1.6
 [1.5]: https://github.com/cheng0225/daily-note/releases/tag/v1.5

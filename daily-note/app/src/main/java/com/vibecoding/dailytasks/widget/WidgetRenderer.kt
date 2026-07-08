@@ -42,6 +42,25 @@ object WidgetRenderer {
         }
         views.setTextViewTextSize(R.id.widget_empty, TypedValue.COMPLEX_UNIT_SP, emptySp.toFloat())
 
+        val resetSp = if (WidgetFontSizes.isCompactItemLayout(itemLayout)) {
+            WidgetFontSizes.resetCompactSp(fontLevel)
+        } else {
+            WidgetFontSizes.resetLargeSp(fontLevel)
+        }
+        views.setTextViewTextSize(R.id.widget_reset_btn, TypedValue.COMPLEX_UNIT_SP, resetSp.toFloat())
+        views.setTextColor(R.id.widget_reset_btn, repo.getWidgetTextSecondaryColor())
+
+        val resetIntent = Intent(context, WidgetResetReceiver::class.java)
+        views.setOnClickPendingIntent(
+            R.id.widget_reset_btn,
+            PendingIntent.getBroadcast(
+                context,
+                1,
+                resetIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            ),
+        )
+
         val toggleIntent = Intent(context, WidgetToggleReceiver::class.java)
         views.setPendingIntentTemplate(
             R.id.widget_list,
